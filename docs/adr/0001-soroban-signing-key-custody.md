@@ -7,7 +7,7 @@
 
 ## Context
 
-`modeltrace-api` is the integration and policy edge between AI gateways and the
+`retinax-model-backend` is the integration and policy edge between AI gateways and the
 Soroban contracts. Two very different kinds of chain writes pass through it:
 
 | | Attestation writes | Settlement / value movement |
@@ -69,7 +69,7 @@ path take the control that fits it.
 1. **Value movement is never signed by this service.** Settlement, refunds, and
    dispute payouts are returned to the caller as unsigned XDR envelopes. The
    service has no key capable of authorizing them, so a full compromise of
-   `modeltrace-api` cannot move funds — it can at worst return a *wrong* envelope,
+   `retinax-model-backend` cannot move funds — it can at worst return a *wrong* envelope,
    which the signer's own review and the contract's own authorization checks are
    positioned to catch.
 2. **Attestation writes use a scoped service key**, held in a KMS, whose contract
@@ -103,7 +103,7 @@ Reading a key from an environment variable is not acceptable in production. It i
 nonetheless the only practical option for local development before KMS
 credentials exist, so it is permitted under these conditions:
 
-- **Owner:** backend maintainers (`FinesseStudioLab/modeltrace-backend`)
+- **Owner:** backend maintainers (`RetinaX-Org/RetinaX-model-backend`)
 - **End date:** the attestation-write PR, i.e. before any deployment that signs
   against a public network. Not a calendar date, because the risk does not exist
   until the code path does.
@@ -175,7 +175,7 @@ envelope and sign it themselves — real friction, and the reason option 1 is
 tempting. We accept it because it is the entire point: the friction is the
 security property.
 
-**What this buys.** A full compromise of `modeltrace-api` cannot move funds. That
+**What this buys.** A full compromise of `retinax-model-backend` cannot move funds. That
 statement is what lets this service be operated, scaled, and debugged like a
 normal API rather than like a custodian.
 

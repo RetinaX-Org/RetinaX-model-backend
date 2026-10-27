@@ -1,6 +1,6 @@
-# Contributing to modeltrace-backend
+# Contributing to RetinaX-model-backend
 
-The Fastify API is the trusted edge of ModelTrace: it talks to Soroban RPC,
+The Fastify API is the trusted edge of RetinaX: it talks to Soroban RPC,
 ingests gateway webhooks, and runs privileged workflows so that secrets never
 reach the browser.
 

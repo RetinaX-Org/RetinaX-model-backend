@@ -17,7 +17,7 @@ Only the current `main` branch receives security fixes. No LTS or versioned rele
 Please report security issues by emailing **devsolex6@gmail.com** with the subject line:
 
 ```
-[SECURITY] modeltrace-backend — <brief description>
+[SECURITY] RetinaX-model-backend — <brief description>
 ```
 
 Include:

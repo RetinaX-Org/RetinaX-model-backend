@@ -2,7 +2,7 @@
 
 ## Our pledge
 
-We as maintainers and contributors pledge to make participation in ModelTrace a
+We as maintainers and contributors pledge to make participation in RetinaX a
 harassment-free experience for everyone, regardless of age, body size, visible or
 invisible disability, ethnicity, sex characteristics, gender identity and
 expression, level of experience, education, socio-economic status, nationality,
@@ -32,7 +32,7 @@ Unacceptable behaviour:
 
 Instances of abusive, harassing, or otherwise unacceptable behaviour may be
 reported to the maintainers via the contact on the
-[FinesseStudioLab](https://github.com/FinesseStudioLab) organization profile.
+[RetinaX-Org](https://github.com/RetinaX-Org) organization profile.
 All complaints will be reviewed and investigated promptly and fairly.
 Maintainers are obligated to respect the privacy and security of the reporter.
 

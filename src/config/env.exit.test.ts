@@ -30,7 +30,7 @@ const validEnv = {
 // A cwd with no .env file, so `dotenv/config` (imported at the top of
 // env.ts) has nothing to load and can't leak an unrelated local .env into
 // the subprocess's environment.
-const emptyCwd = mkdtempSync(join(tmpdir(), "modeltrace-env-test-"));
+const emptyCwd = mkdtempSync(join(tmpdir(), "retinax-env-test-"));
 
 function runEnvModule(env: Record<string, string>) {
   return spawnSync(process.execPath, [compiledEnvPath], {

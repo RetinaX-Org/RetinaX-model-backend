@@ -1,4 +1,4 @@
-# ModelTrace — Backend API (Stellar / Soroban integration)
+# RetinaX — Backend API (Stellar / Soroban integration)
 
 The trusted sidecar for AI gateways and enterprises: meter usage, prepare Soroban settlements, and export audit evidence—without putting RPC secrets or signing keys in the browser.
 
@@ -6,13 +6,13 @@ The trusted sidecar for AI gateways and enterprises: meter usage, prepare Soroba
 
 ## 🎯 What is this service?
 
-This **Fastify** service is the **integration and policy edge** for ModelTrace. The Soroban contracts (`audit-registry`, `usage-meter`, `payment-router`) encode **rules** on-chain; this API encodes **who may invoke what**, **when**, and **with which credentials**. It is how inference vendors connect billing pipelines, how enterprises pull tamper-evident exports for procurement, and how you attach webhooks when usage crosses thresholds—all without exposing Horizon URLs or custodial keys to `apps/web`.
+This **Fastify** service is the **integration and policy edge** for RetinaX. The Soroban contracts (`audit-registry`, `usage-meter`, `payment-router`) encode **rules** on-chain; this API encodes **who may invoke what**, **when**, and **with which credentials**. It is how inference vendors connect billing pipelines, how enterprises pull tamper-evident exports for procurement, and how you attach webhooks when usage crosses thresholds—all without exposing Horizon URLs or custodial keys to the browser.
 
 ---
 
 ## ❓ Problems the **protocol** solves (whole repo)
 
-These come from the [root README](../../README.md) — shared context for why Stellar/Soroban exists here:
+Shared context for why Stellar/Soroban exists here:
 
 - AI procurement is scaling faster than **governance**; teams cannot consistently prove model version, region, or policy for a given output.
 - Enterprises and regulated buyers need **audit trails** that survive vendor churn and spreadsheet exports.
@@ -36,7 +36,7 @@ The smart contracts hold **truth on-chain**; they cannot safely hold ERP passwor
 - Register **signed attestations** of inference events tied to policy and pricing tiers.
 - Support **metered settlement** with dispute windows and programmable payout logic on Soroban.
 - Provide **operator-grade** dashboards and exports suitable for procurement and compliance reviews.
-- Stay interoperable with existing inference gateways—ModelTrace is a **rail**, not a replacement model host.
+- Stay interoperable with existing inference gateways—RetinaX is a **rail**, not a replacement model host.
 
 ---
 
@@ -68,14 +68,14 @@ The smart contracts hold **truth on-chain**; they cannot safely hold ERP passwor
 | Language | **TypeScript** (strict, ESM, `verbatimModuleSyntax`) |
 | Config | **Zod** parsing in `src/config/env.ts` |
 | Blockchain | **Stellar** Horizon + **Soroban** RPC (server-side keys only) |
-| Consumers | [`apps/web`](../web/README.md), partner systems, cron workers |
+| Consumers | Web frontend, partner systems, cron workers |
 
 ---
 
 ## 📁 Package layout
 
 ```
-apps/backend/
+RetinaX-model-backend/
 ├── .env.example
 ├── package.json
 ├── tsconfig.json
@@ -100,7 +100,7 @@ apps/backend/
 ### Install & run
 
 ```bash
-cd apps/backend
+cd RetinaX-model-backend
 npm install
 cp .env.example .env
 # Edit .env — see tables below
@@ -109,17 +109,9 @@ npm run dev
 
 Default: **http://localhost:8080** · Health: **GET** `/health` · Meta: **GET** `/api/v1/meta`
 
-### Run with the Next.js frontend
+### Run with a web frontend
 
-```bash
-# Terminal A — API
-cd apps/backend && npm run dev
-
-# Terminal B — Web
-cd apps/web && npm install && npm run dev
-```
-
-Set `CORS_ORIGIN` in `.env` to match the web origin (e.g. `http://localhost:3000`).
+Start the API with `npm run dev`, then start your frontend separately. Set `CORS_ORIGIN` in `.env` to match the web origin (e.g. `http://localhost:3000`).
 
 ---
 
@@ -153,7 +145,7 @@ Set `CORS_ORIGIN` in `.env` to match the web origin (e.g. `http://localhost:3000
 | `SOROBAN_RPC_URL` | `https://…` | RPC endpoint for simulate/submit (server-side only). |
 | `HORIZON_URL` | `https://…` | Horizon for historical reads when building audit bundles. |
 | `SIGNING_SEED` / KMS | (secret) | Custodial or semi-custodial signing—prefer KMS/Vault in production. |
-| `MODELTRACE_GATEWAY_HMAC_SECRET` | (secret) | Authenticate inference gateway POSTs. |
+| `RETINAX_GATEWAY_HMAC_SECRET` | (secret) | Authenticate inference gateway POSTs. |
 
 ---
 
@@ -181,9 +173,9 @@ Set `CORS_ORIGIN` in `.env` to match the web origin (e.g. `http://localhost:3000
 npm run lint
 ```
 
-CI should mirror this (see [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml)).
+CI should mirror this (see [`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
 
-Add **contract integration tests** in the Rust workspace and **API integration tests** (e.g. `vitest` + `supertest`) as routes grow.
+Add **API integration tests** (e.g. `vitest` + `supertest`) as routes grow.
 
 ---
 
@@ -192,13 +184,13 @@ Add **contract integration tests** in the Rust workspace and **API integration t
 - Run behind TLS termination (load balancer or reverse proxy).
 - Store signing keys in **KMS/HSM**, never in repo.
 - Restrict Soroban RPC by IP allowlist or private gateway when possible.
-- Emit structured logs (JSON) with **request IDs** for regulator audits (especially MediProof / CivicLedger / ReliefFlow).
+- Emit structured logs (JSON) with **request IDs** for regulator audits.
 
 ---
 
 ## 🤝 Contributing
 
-See [`../../CONTRIBUTING.md`](../../CONTRIBUTING.md). Contract changes must stay aligned with this API’s eventual routes and [`../../docs/SITE_MAP.md`](../../docs/SITE_MAP.md).
+See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ---
 
@@ -212,11 +204,9 @@ Match the repository license (Apache-2.0 suggested for OSS grants — confirm pe
 
 | Doc | Link |
 | --- | ---- |
-| Monorepo overview | [`../../README.md`](../../README.md) |
-| Frontend | [`../web/README.md`](../web/README.md) |
-| Architecture notes | [`../../docs/layout-plan.md`](../../docs/layout-plan.md) |
-| Milestones → issues | [`../../docs/milestones-issues.md`](../../docs/milestones-issues.md) |
+| Signing key custody | [`docs/adr/0001-soroban-signing-key-custody.md`](docs/adr/0001-soroban-signing-key-custody.md) |
+| Contract read caching | [`docs/adr/0002-contract-read-caching.md`](docs/adr/0002-contract-read-caching.md) |
 
 ---
 
-**Package:** `modeltrace-api` · **Slug:** `modeltrace`
+**Package:** `retinax-model-backend`
